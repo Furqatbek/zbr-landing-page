@@ -1,0 +1,24 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  
+  <rect width="1024" height="1024" rx="224" fill="#FF6B00"></rect>
+
+  
+  <rect x="80" y="340" width="120" height="24" rx="12" fill="white" opacity="0.6"></rect>
+  <rect x="120" y="400" width="100" height="20" rx="10" fill="white" opacity="0.4"></rect>
+  <rect x="100" y="456" width="140" height="22" rx="11" fill="white" opacity="0.5"></rect>
+  <rect x="80" y="520" width="110" height="20" rx="10" fill="white" opacity="0.4"></rect>
+  <rect x="130" y="580" width="90" height="18" rx="9" fill="white" opacity="0.3"></rect>
+  <rect x="90" y="636" width="130" height="22" rx="11" fill="white" opacity="0.5"></rect>
+
+  
+  <text x="512" y="580" font-family="Arial Black, Arial, sans-serif" font-size="320" font-weight="900" fill="white" text-anchor="middle" letter-spacing="-10">
+    ZBR
+  </text>
+
+  
+  <path d="M280 680 Q512 720 780 680" stroke="white" stroke-width="16" stroke-linecap="round" fill="none" opacity="0.7"></path>
+  <path d="M320 720 Q512 750 720 720" stroke="white" stroke-width="10" stroke-linecap="round" fill="none" opacity="0.4"></path>
+
+  
+  <path d="M800 280 L760 380 L800 380 L750 480 L820 350 L780 350 Z" fill="white" opacity="0.9"></path>
+</svg>
