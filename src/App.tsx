@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Home } from "./pages/Home";
+import { Privacy } from "./pages/Privacy";
 import { PitchPage } from "./components/PitchPage";
 
 /**
@@ -37,6 +38,7 @@ export function App() {
         <Route path="/" element={<Home />} />
         <Route path="/partner-offer" element={<PitchPage variant="vendor" />} />
         <Route path="/courier-offer" element={<PitchPage variant="courier" />} />
+        <Route path="/privacy" element={<Privacy />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
