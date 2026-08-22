@@ -4,18 +4,20 @@ interface ZbrLogoProps {
   withText?: boolean;
 }
 
-/** The ZBR mark: an orange tile with a white speed-cut "Z" (top bar, blade, bottom bar). */
+/**
+ * The ZBR brand mark: orange tile with the white speed-cut "Z".
+ * Vector traced from the official app icon (export/assets/images/icon.png),
+ * verified against it pixel-for-pixel — keep in sync with public/icon.svg.
+ */
+const Z_PATH =
+  "M 440.7,798.8 L 134.0,799.0 L 134.0,797.8 L 133.9,796.5 L 143.2,759.2 L 152.5,722.0 L 155.5,721.0 L 158.5,720.0 L 306.8,677.5 L 455.2,635.0 L 621.6,635.0 L 788.0,635.0 L 788.0,635.8 L 787.9,636.5 L 767.7,717.5 L 747.4,798.5 L 440.7,798.8 Z M 165.1,675.0 L 164.2,675.0 L 169.4,654.9 L 174.5,634.8 L 241.0,602.8 L 307.5,570.9 L 507.9,513.4 L 708.2,455.9 L 708.6,456.2 L 708.9,456.5 L 546.7,534.4 L 384.5,612.3 L 275.2,643.6 L 165.9,675.0 L 165.1,675.0 Z M 458.1,389.0 L 236.0,389.0 L 236.0,388.2 L 236.0,387.5 L 256.2,306.2 L 276.4,225.0 L 583.2,225.0 L 890.0,225.0 L 890.0,225.8 L 890.1,226.5 L 876.3,281.6 L 862.6,336.7 L 771.4,362.9 L 680.2,389.0 L 458.1,389.0 Z";
+
 export function ZbrLogo({ size = 32, dark = false, withText = true }: ZbrLogoProps) {
   return (
     <div style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
-      <svg width={size} height={size} viewBox="0 0 512 512" role="img" aria-label="ZBR">
-        <rect width="512" height="512" rx="44" fill="var(--accent)" />
-        {/* top bar */}
-        <polygon points="120,108 452,138 452,180 120,150" fill="#fff" />
-        {/* diagonal blade (top-right → bottom-left) */}
-        <polygon points="452,208 452,246 150,350 150,312" fill="#fff" />
-        {/* bottom bar */}
-        <polygon points="92,332 400,360 400,402 92,374" fill="#fff" />
+      <svg width={size} height={size} viewBox="0 0 1024 1024" role="img" aria-label="ZBR">
+        <rect width="1024" height="1024" fill="#FF6B00" />
+        <path d={Z_PATH} fill="#fff" fillRule="evenodd" />
       </svg>
       {withText && (
         <span
