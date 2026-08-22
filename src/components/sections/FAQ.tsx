@@ -12,7 +12,7 @@ export function FAQ() {
     { q: t.faq.q6, a: t.faq.a6 },
   ];
   return (
-    <section style={{ background: "var(--bg)" }}>
+    <section id="faq" style={{ background: "var(--bg)" }}>
       <div className="container" style={{ maxWidth: 880 }}>
         <div className="section-head center">
           <span className="eyebrow">

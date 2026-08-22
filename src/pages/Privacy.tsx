@@ -72,12 +72,11 @@ export function Privacy() {
       {/* HEADER */}
       <section style={{ background: "var(--bg-2)", paddingTop: 48, paddingBottom: 56 }}>
         <div className="container" style={{ maxWidth: 820 }}>
-          <Link
-            to="/"
-            style={{ fontSize: 14, fontWeight: 600, color: "var(--muted)", display: "inline-block", marginBottom: 24 }}
-          >
-            ← {t.pitchHome}
-          </Link>
+          <div style={{ marginBottom: 24 }}>
+            <Link to="/" style={{ fontSize: 14, fontWeight: 600, color: "var(--muted)" }}>
+              ← {t.pitchHome}
+            </Link>
+          </div>
           <span className="eyebrow">
             <span className="dot" />
             ZBR

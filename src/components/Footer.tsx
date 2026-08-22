@@ -13,11 +13,18 @@ export function Footer({ dark = true }: { dark?: boolean }) {
   const [status, setStatus] = useState<Status>("idle");
   const [err, setErr] = useState("");
 
+  // Destinations sit here rather than in the dictionaries: the labels are
+  // translated, the paths are the same in every language. Order matches the
+  // label arrays in `translations.ts`.
   const cols = [
-    { title: t.footer.c1, links: t.footer.c1l },
-    { title: t.footer.c2, links: t.footer.c2l },
-    { title: t.footer.c3, links: t.footer.c3l },
-    { title: t.footer.c4, links: t.footer.c4l },
+    { title: t.footer.c1, links: t.footer.c1l, hrefs: ["/about", "/careers", "/press", "/blog"] },
+    {
+      title: t.footer.c2,
+      links: t.footer.c2l,
+      hrefs: ["/partner-offer", "/courier-offer", "/for-offices", "/restaurant-dashboard"],
+    },
+    { title: t.footer.c3, links: t.footer.c3l, hrefs: ["/#faq", "/support", "/safety", "/status"] },
+    { title: t.footer.c4, links: t.footer.c4l, hrefs: ["/privacy", "/terms", "/cookies", "/refunds"] },
   ];
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -194,11 +201,11 @@ export function Footer({ dark = true }: { dark?: boolean }) {
                 {col.title}
               </div>
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-                {col.links.map((l) => (
+                {col.links.map((l, i) => (
                   <li key={l}>
-                    <a href="#" style={{ fontSize: 14, opacity: 0.85 }}>
+                    <Link to={col.hrefs[i]} style={{ fontSize: 14, opacity: 0.85 }}>
                       {l}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
