@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useI18n } from "../i18n";
 import { ZbrLogo } from "./ZbrLogo";
 import { formatUzPhone, isValidUzPhone, canonicalPhone } from "../lib/phone";
@@ -219,7 +220,12 @@ export function Footer({ dark = true }: { dark?: boolean }) {
             opacity: 0.6,
           }}
         >
-          <div>{t.footer.copy}</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+            <span>{t.footer.copy}</span>
+            <Link to="/privacy" style={{ opacity: 0.85, textDecoration: "underline" }}>
+              {t.footer.privacy}
+            </Link>
+          </div>
           <div>{t.footer.made}</div>
         </div>
       </div>

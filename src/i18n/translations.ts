@@ -215,7 +215,8 @@ export const ru = {
       "Возвраты"
     ],
     "copy": "© 2026 ZBR Technologies. Все права защищены.",
-    "made": "Сделано с 🔥 в Ташкенте"
+    "made": "Сделано с 🔥 в Ташкенте",
+    "privacy": "Конфиденциальность"
   },
   "store": {
     "iosSmall": "Скоро в",
@@ -598,7 +599,8 @@ export const uz: Translation = {
       "Qaytarish"
     ],
     "copy": "© 2026 ZBR Technologies. Barcha huquqlar himoyalangan.",
-    "made": "Toshkentda 🔥 bilan tayyorlandi"
+    "made": "Toshkentda 🔥 bilan tayyorlandi",
+    "privacy": "Maxfiylik siyosati"
   },
   "store": {
     "iosSmall": "Tez orada",
@@ -979,7 +981,8 @@ export const kk: Translation = {
       "Qaytarıw"
     ],
     "copy": "© 2026 ZBR Technologies. Barlıq huqıqlar qorǵalǵan.",
-    "made": "Tashkentte 🔥 menen islengen"
+    "made": "Tashkentte 🔥 menen islengen",
+    "privacy": "Maxfiylik siyasatı"
   },
   "store": {
     "iosSmall": "Tez arada",
