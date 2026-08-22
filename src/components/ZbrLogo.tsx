@@ -4,33 +4,20 @@ interface ZbrLogoProps {
   withText?: boolean;
 }
 
-/** The ZBR mark: a speed-lined tile + hard-italic skewed wordmark (mid-sprint). */
+/**
+ * The ZBR brand mark: orange tile with the white speed-cut "Z".
+ * Vector traced from the official app icon (export/assets/images/icon.png),
+ * verified against it pixel-for-pixel — keep in sync with public/icon.svg.
+ */
+const Z_PATH =
+  "M 440.7,798.8 L 134.0,799.0 L 134.0,797.8 L 133.9,796.5 L 143.2,759.2 L 152.5,722.0 L 155.5,721.0 L 158.5,720.0 L 306.8,677.5 L 455.2,635.0 L 621.6,635.0 L 788.0,635.0 L 788.0,635.8 L 787.9,636.5 L 767.7,717.5 L 747.4,798.5 L 440.7,798.8 Z M 165.1,675.0 L 164.2,675.0 L 169.4,654.9 L 174.5,634.8 L 241.0,602.8 L 307.5,570.9 L 507.9,513.4 L 708.2,455.9 L 708.6,456.2 L 708.9,456.5 L 546.7,534.4 L 384.5,612.3 L 275.2,643.6 L 165.9,675.0 L 165.1,675.0 Z M 458.1,389.0 L 236.0,389.0 L 236.0,388.2 L 236.0,387.5 L 256.2,306.2 L 276.4,225.0 L 583.2,225.0 L 890.0,225.0 L 890.0,225.8 L 890.1,226.5 L 876.3,281.6 L 862.6,336.7 L 771.4,362.9 L 680.2,389.0 L 458.1,389.0 Z";
+
 export function ZbrLogo({ size = 32, dark = false, withText = true }: ZbrLogoProps) {
-  const fg = dark ? "#FFFFFF" : "var(--accent)";
   return (
     <div style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
-      <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true">
-        <rect width="64" height="64" rx="14" fill={fg} />
-        {/* speed lines */}
-        <rect x="6" y="22" width="10" height="3" rx="1.5" fill="white" opacity="0.55" />
-        <rect x="9" y="28" width="8" height="2.5" rx="1.25" fill="white" opacity="0.4" />
-        <rect x="6" y="34" width="11" height="3" rx="1.5" fill="white" opacity="0.5" />
-        <rect x="10" y="40" width="7" height="2.5" rx="1.25" fill="white" opacity="0.4" />
-        {/* ZBR */}
-        <text
-          x="40"
-          y="40"
-          fill="white"
-          fontFamily="Space Grotesk, Arial Black"
-          fontSize="20"
-          fontWeight="800"
-          textAnchor="middle"
-          letterSpacing="-1"
-        >
-          ZBR
-        </text>
-        {/* lightning accent */}
-        <path d="M51 16 L48 22 L51 22 L47.5 28 L52 22 L49.5 22 Z" fill="white" opacity="0.9" />
+      <svg width={size} height={size} viewBox="0 0 1024 1024" role="img" aria-label="ZBR">
+        <rect width="1024" height="1024" fill="#FF6B00" />
+        <path d={Z_PATH} fill="#fff" fillRule="evenodd" />
       </svg>
       {withText && (
         <span
