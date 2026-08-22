@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useI18n } from "../i18n";
+import { HIDDEN_PATHS } from "../i18n/pages";
 import { ZbrLogo } from "./ZbrLogo";
 import { formatUzPhone, isValidUzPhone, canonicalPhone } from "../lib/phone";
 import { submitLead } from "../lib/leads";
@@ -16,7 +17,7 @@ export function Footer({ dark = true }: { dark?: boolean }) {
   // Destinations sit here rather than in the dictionaries: the labels are
   // translated, the paths are the same in every language. Order matches the
   // label arrays in `translations.ts`.
-  const cols = [
+  const rawCols = [
     { title: t.footer.c1, links: t.footer.c1l, hrefs: ["/about", "/careers", "/press", "/blog"] },
     {
       title: t.footer.c2,
@@ -26,6 +27,14 @@ export function Footer({ dark = true }: { dark?: boolean }) {
     { title: t.footer.c3, links: t.footer.c3l, hrefs: ["/#faq", "/support", "/safety", "/status"] },
     { title: t.footer.c4, links: t.footer.c4l, hrefs: ["/privacy", "/terms", "/cookies", "/refunds"] },
   ];
+
+  // Pair each label with its destination, then drop the ones not live yet.
+  const cols = rawCols.map((col) => ({
+    title: col.title,
+    entries: col.links
+      .map((label, i) => ({ label, href: col.hrefs[i] }))
+      .filter((e) => !HIDDEN_PATHS.has(e.href)),
+  }));
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -201,10 +210,10 @@ export function Footer({ dark = true }: { dark?: boolean }) {
                 {col.title}
               </div>
               <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-                {col.links.map((l, i) => (
-                  <li key={l}>
-                    <Link to={col.hrefs[i]} style={{ fontSize: 14, opacity: 0.85 }}>
-                      {l}
+                {col.entries.map((e) => (
+                  <li key={e.href}>
+                    <Link to={e.href} style={{ fontSize: 14, opacity: 0.85 }}>
+                      {e.label}
                     </Link>
                   </li>
                 ))}

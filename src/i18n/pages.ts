@@ -5,42 +5,19 @@
 // renamed key is a compile error.
 //
 // NOTE FOR REVIEW: `terms`, `cookies` and `refunds` are drafts written from how
-// the service actually works — they have NOT been reviewed by a lawyer. Get them
-// checked before the public launch, and have the uz/kk versions read by a native
-// speaker (legal wording is the easiest thing to get subtly wrong in translation).
+// the service actually works — they have NOT been reviewed by a lawyer. They are
+// listed in HIDDEN_PATHS below so nothing links or routes to them until then.
 /* eslint-disable */
 
 import type { Lang } from "./translations";
+import { CONTACT, type InfoPageCopy } from "./content";
+import { privacyCopy } from "./privacy";
 
-/** Contact details, kept in one place — they appear on several pages. */
-export const CONTACT = {
-  entity: "Istiqlol Tech LLC",
-  address: "Katta Chilonzor-1 MFY, Arnasoy ko'chasi, 6-a-uy, Tashkent",
-  email: "simple.furqat@gmail.com",
-  phone: "+998 94 114 32 32",
-};
-
-export interface InfoSection {
-  /** Section heading. */
-  h?: string;
-  /** Body paragraph. */
-  p?: string;
-  /** Optional bullet list, rendered under `p`. */
-  items?: string[];
-}
-
-export interface InfoPageCopy {
-  eyebrow: string;
-  title: string;
-  sub: string;
-  sections: InfoSection[];
-  /** Rendered as a muted "last updated" line under the title. */
-  updated?: string;
-  /** Optional call-to-action button at the end of the body. */
-  cta?: { label: string; to: string };
-}
+export { CONTACT };
+export type { InfoSection, InfoPageCopy } from "./content";
 
 export type PageKey =
+  | "privacy"
   | "about"
   | "careers"
   | "press"
@@ -60,7 +37,7 @@ const UPDATED_RU = "22 августа 2026";
 const UPDATED_UZ = "2026-yil 22-avgust";
 const UPDATED_KK = "2026-jıl 22-avgust";
 
-const ru: PagesCopy = {
+const ru: Omit<PagesCopy, "privacy"> = {
   about: {
     eyebrow: "О нас",
     title: "Мы строим доставку, которая не заставляет ждать.",
@@ -102,7 +79,7 @@ const ru: PagesCopy = {
       },
       {
         h: "Как откликнуться",
-        p: `Напишите на ${CONTACT.email}: коротко о себе, что уже делали и чем хотите заниматься в ZBR. Резюме приветствуется, но не обязательно.`,
+        p: `Позвоните нам: ${CONTACT.phone} — расскажите коротко о себе, что уже делали и чем хотите заниматься в ZBR. Резюме приветствуется, но не обязательно.`,
       },
       {
         h: "Что мы даём",
@@ -129,7 +106,7 @@ const ru: PagesCopy = {
       },
       {
         h: "Контакт для СМИ",
-        p: `${CONTACT.email} · ${CONTACT.phone}`,
+        p: `${CONTACT.phone}`,
       },
     ],
   },
@@ -164,7 +141,7 @@ const ru: PagesCopy = {
       },
       {
         h: "Оставить заявку",
-        p: `Напишите на ${CONTACT.email} или позвоните ${CONTACT.phone} — расскажем условия и подключим вашу компанию одной из первых.`,
+        p: `Позвоните нам: ${CONTACT.phone} — расскажем условия и подключим вашу компанию одной из первых.`,
       },
     ],
   },
@@ -196,7 +173,7 @@ const ru: PagesCopy = {
     sections: [
       {
         h: "Как связаться",
-        items: [`Email — ${CONTACT.email}`, `Телефон — ${CONTACT.phone}`],
+        items: [`Телефон — ${CONTACT.phone}`],
       },
       {
         h: "Когда ответим",
@@ -231,11 +208,11 @@ const ru: PagesCopy = {
       },
       {
         h: "Оплата",
-        p: "Данные банковских карт мы не храним. Доступные способы оплаты всегда показаны при оформлении заказа.",
+        p: "Сейчас, на этапе MVP, ZBR работает только с оплатой наличными курьеру — данные банковских карт мы не собираем и не храним. Оплату картой и онлайн-оплату планируем добавить позже.",
       },
       {
         h: "Если что-то пошло не так",
-        p: `Сообщите нам: ${CONTACT.email} или ${CONTACT.phone}. Разбираем каждый случай.`,
+        p: `Сообщите нам: ${CONTACT.phone}. Разбираем каждый случай.`,
       },
     ],
   },
@@ -262,7 +239,7 @@ const ru: PagesCopy = {
       },
       {
         h: "Как узнать о сбоях",
-        p: `О значимых сбоях сообщим здесь и в приложении. Срочные вопросы — ${CONTACT.email}, ${CONTACT.phone}. Страница обновляется вручную.`,
+        p: `О значимых сбоях сообщим здесь и в приложении. Срочные вопросы — ${CONTACT.phone}. Страница обновляется вручную.`,
       },
     ],
   },
@@ -290,7 +267,7 @@ const ru: PagesCopy = {
       },
       {
         h: "5. Оплата",
-        p: "Доступные способы оплаты показываются при оформлении заказа. Данные банковских карт мы не храним.",
+        p: "Сейчас, на этапе MVP, оплата только наличными курьеру при получении. Данные банковских карт мы не собираем и не храним. Оплату картой и онлайн-оплату добавим позже — условия обновим здесь.",
       },
       {
         h: "6. Отмена и возврат",
@@ -310,7 +287,7 @@ const ru: PagesCopy = {
       },
       {
         h: "10. Контакты",
-        p: `${CONTACT.entity}, ${CONTACT.address}. ${CONTACT.email} · ${CONTACT.phone}`,
+        p: `${CONTACT.entity}, ${CONTACT.address}. ${CONTACT.phone}`,
       },
     ],
   },
@@ -358,7 +335,7 @@ const ru: PagesCopy = {
       },
       {
         h: "Как оформить возврат",
-        p: `Напишите на ${CONTACT.email} или позвоните ${CONTACT.phone}. Укажите номер заказа и что произошло; по возможности приложите фотографию.`,
+        p: `Позвоните нам: ${CONTACT.phone}. Укажите номер заказа и что произошло; по возможности приложите фотографию.`,
       },
       {
         h: "Сроки",
@@ -368,7 +345,7 @@ const ru: PagesCopy = {
   },
 };
 
-const uz: PagesCopy = {
+const uz: Omit<PagesCopy, "privacy"> = {
   about: {
     eyebrow: "Biz haqimizda",
     title: "Biz kutishga majbur qilmaydigan yetkazib berishni quryapmiz.",
@@ -410,7 +387,7 @@ const uz: PagesCopy = {
       },
       {
         h: "Qanday murojaat qilish",
-        p: `${CONTACT.email} manziliga yozing: o'zingiz haqingizda qisqacha, nima qilgansiz va ZBRda nima bilan shug'ullanmoqchisiz. Rezyume bo'lsa yaxshi, lekin shart emas.`,
+        p: `${CONTACT.phone} raqamiga qo'ng'iroq qiling: o'zingiz haqingizda qisqacha, nima qilgansiz va ZBRda nima bilan shug'ullanmoqchisiz. Rezyume bo'lsa yaxshi, lekin shart emas.`,
       },
       {
         h: "Nima beramiz",
@@ -437,7 +414,7 @@ const uz: PagesCopy = {
       },
       {
         h: "OAV uchun kontakt",
-        p: `${CONTACT.email} · ${CONTACT.phone}`,
+        p: `${CONTACT.phone}`,
       },
     ],
   },
@@ -472,7 +449,7 @@ const uz: PagesCopy = {
       },
       {
         h: "Ariza qoldirish",
-        p: `${CONTACT.email} ga yozing yoki ${CONTACT.phone} raqamiga qo'ng'iroq qiling — shartlarni aytamiz va kompaniyangizni birinchilardan bo'lib ulaymiz.`,
+        p: `${CONTACT.phone} raqamiga qo'ng'iroq qiling — shartlarni aytamiz va kompaniyangizni birinchilardan bo'lib ulaymiz.`,
       },
     ],
   },
@@ -504,7 +481,7 @@ const uz: PagesCopy = {
     sections: [
       {
         h: "Qanday bog'lanish",
-        items: [`Email — ${CONTACT.email}`, `Telefon — ${CONTACT.phone}`],
+        items: [`Telefon — ${CONTACT.phone}`],
       },
       {
         h: "Qachon javob beramiz",
@@ -539,11 +516,11 @@ const uz: PagesCopy = {
       },
       {
         h: "To'lov",
-        p: "Bank kartalari ma'lumotlarini saqlamaymiz. Mavjud to'lov usullari buyurtma rasmiylashtirishda ko'rsatiladi.",
+        p: "Hozir, MVP bosqichida, ZBR faqat kuryerga naqd pul to'lash bilan ishlaydi — bank kartalari ma'lumotlarini yig'maymiz va saqlamaymiz. Karta va onlayn to'lovni keyinroq qo'shishni rejalashtiryapmiz.",
       },
       {
         h: "Agar biror narsa noto'g'ri ketsa",
-        p: `Bizga xabar bering: ${CONTACT.email} yoki ${CONTACT.phone}. Har bir holatni ko'rib chiqamiz.`,
+        p: `Bizga xabar bering: ${CONTACT.phone}. Har bir holatni ko'rib chiqamiz.`,
       },
     ],
   },
@@ -570,7 +547,7 @@ const uz: PagesCopy = {
       },
       {
         h: "Uzilishlar haqida qanday bilish",
-        p: `Muhim uzilishlar haqida shu yerda va ilovada xabar beramiz. Shoshilinch savollar — ${CONTACT.email}, ${CONTACT.phone}. Sahifa qo'lda yangilanadi.`,
+        p: `Muhim uzilishlar haqida shu yerda va ilovada xabar beramiz. Shoshilinch savollar — ${CONTACT.phone}. Sahifa qo'lda yangilanadi.`,
       },
     ],
   },
@@ -598,7 +575,7 @@ const uz: PagesCopy = {
       },
       {
         h: "5. To'lov",
-        p: "Mavjud to'lov usullari buyurtma rasmiylashtirishda ko'rsatiladi. Bank kartalari ma'lumotlarini saqlamaymiz.",
+        p: "Hozir, MVP bosqichida, to'lov faqat olish paytida kuryerga naqd pul bilan. Bank kartalari ma'lumotlarini yig'maymiz va saqlamaymiz. Karta va onlayn to'lovni keyinroq qo'shamiz — shartlarni shu yerda yangilaymiz.",
       },
       {
         h: "6. Bekor qilish va qaytarish",
@@ -618,7 +595,7 @@ const uz: PagesCopy = {
       },
       {
         h: "10. Kontaktlar",
-        p: `${CONTACT.entity}, ${CONTACT.address}. ${CONTACT.email} · ${CONTACT.phone}`,
+        p: `${CONTACT.entity}, ${CONTACT.address}. ${CONTACT.phone}`,
       },
     ],
   },
@@ -666,7 +643,7 @@ const uz: PagesCopy = {
       },
       {
         h: "Qaytarishni qanday rasmiylashtirish",
-        p: `${CONTACT.email} ga yozing yoki ${CONTACT.phone} raqamiga qo'ng'iroq qiling. Buyurtma raqamini va nima bo'lganini ko'rsating; iloji bo'lsa foto ilova qiling.`,
+        p: `${CONTACT.phone} raqamiga qo'ng'iroq qiling. Buyurtma raqamini va nima bo'lganini ko'rsating; iloji bo'lsa foto ilova qiling.`,
       },
       {
         h: "Muddatlar",
@@ -676,7 +653,7 @@ const uz: PagesCopy = {
   },
 };
 
-const kk: PagesCopy = {
+const kk: Omit<PagesCopy, "privacy"> = {
   about: {
     eyebrow: "Biz haqqımızda",
     title: "Biz kütiwge májbúrlemeytuǵın jetkeriwdi quryapmız.",
@@ -718,7 +695,7 @@ const kk: PagesCopy = {
       },
       {
         h: "Qalay múrájat etiw",
-        p: `${CONTACT.email} mánzilne jazıń: ózińiz haqqıńızda qısqasha, ne islegensiz hám ZBRda ne menen shuǵıllanbaqshısız. Rezyume bolsa jaqsı, biraq shárt emes.`,
+        p: `${CONTACT.phone} nomerine qońıraw etiń: ózińiz haqqıńızda qısqasha, ne islegensiz hám ZBRda ne menen shuǵıllanbaqshısız. Rezyume bolsa jaqsı, biraq shárt emes.`,
       },
       {
         h: "Ne beremiz",
@@ -745,7 +722,7 @@ const kk: PagesCopy = {
       },
       {
         h: "GAQ ushın kontakt",
-        p: `${CONTACT.email} · ${CONTACT.phone}`,
+        p: `${CONTACT.phone}`,
       },
     ],
   },
@@ -780,7 +757,7 @@ const kk: PagesCopy = {
       },
       {
         h: "Arza qaldırıw",
-        p: `${CONTACT.email} ge jazıń yaki ${CONTACT.phone} nomerine qońıraw etiń — shártlerdi aytamız hám kompaniyańızdı birinshilerden bolıp qosamız.`,
+        p: `${CONTACT.phone} nomerine qońıraw etiń — shártlerdi aytamız hám kompaniyańızdı birinshilerden bolıp qosamız.`,
       },
     ],
   },
@@ -812,7 +789,7 @@ const kk: PagesCopy = {
     sections: [
       {
         h: "Qalay baylanısıw",
-        items: [`Email — ${CONTACT.email}`, `Telefon — ${CONTACT.phone}`],
+        items: [`Telefon — ${CONTACT.phone}`],
       },
       {
         h: "Qashan juwap beremiz",
@@ -847,11 +824,11 @@ const kk: PagesCopy = {
       },
       {
         h: "Tólem",
-        p: "Bank kartaları maǵlıwmatların saqlamaymız. Bar bolǵan tólem usılları buyırtpa rásmiylestiriwde kórsetiledi.",
+        p: "Házir, MVP basqıshında, ZBR tek kuryerge naq pul tólew menen isleydi — bank kartaları maǵlıwmatların jıynamaymız hám saqlamaymız. Karta hám onlayn tólewdi keyinirek qosıwdı jobalastırıp atırmız.",
       },
       {
         h: "Eger bir nárse durıs ketpese",
-        p: `Bizge xabar beriń: ${CONTACT.email} yaki ${CONTACT.phone}. Hár bir jaǵdaydı qaraymız.`,
+        p: `Bizge xabar beriń: ${CONTACT.phone}. Hár bir jaǵdaydı qaraymız.`,
       },
     ],
   },
@@ -878,7 +855,7 @@ const kk: PagesCopy = {
       },
       {
         h: "Úzilisler haqqında qalay biliw",
-        p: `Áhmiyetli úzilisler haqqında usı jerde hám qosımshada xabar beremiz. Shurshıllı sorawlar — ${CONTACT.email}, ${CONTACT.phone}. Bet qol menen jańalanadı.`,
+        p: `Áhmiyetli úzilisler haqqında usı jerde hám qosımshada xabar beremiz. Shurshıllı sorawlar — ${CONTACT.phone}. Bet qol menen jańalanadı.`,
       },
     ],
   },
@@ -906,7 +883,7 @@ const kk: PagesCopy = {
       },
       {
         h: "5. Tólem",
-        p: "Bar bolǵan tólem usılları buyırtpa rásmiylestiriwde kórsetiledi. Bank kartaları maǵlıwmatların saqlamaymız.",
+        p: "Házir, MVP basqıshında, tólew tek alıw waqtında kuryerge naq pul menen. Bank kartaları maǵlıwmatların jıynamaymız hám saqlamaymız. Karta hám onlayn tólewdi keyinirek qosamız — shártlerdi usı jerde jańalaymız.",
       },
       {
         h: "6. Biykarlaw hám qaytarıw",
@@ -926,7 +903,7 @@ const kk: PagesCopy = {
       },
       {
         h: "10. Kontaktlar",
-        p: `${CONTACT.entity}, ${CONTACT.address}. ${CONTACT.email} · ${CONTACT.phone}`,
+        p: `${CONTACT.entity}, ${CONTACT.address}. ${CONTACT.phone}`,
       },
     ],
   },
@@ -974,7 +951,7 @@ const kk: PagesCopy = {
       },
       {
         h: "Qaytarıwdı qalay rásmiylestiriw",
-        p: `${CONTACT.email} ge jazıń yaki ${CONTACT.phone} nomerine qońıraw etiń. Buyırtpa nomerin hám ne bolǵanın kórsetiń; imkanı bolsa foto qosıń.`,
+        p: `${CONTACT.phone} nomerine qońıraw etiń. Buyırtpa nomerin hám ne bolǵanın kórsetiń; imkanı bolsa foto qosıń.`,
       },
       {
         h: "Múddetler",
@@ -984,4 +961,15 @@ const kk: PagesCopy = {
   },
 };
 
-export const pages: Record<Lang, PagesCopy> = { ru, uz, kk };
+/**
+ * Pages that exist but are not linked or routed yet.
+ * `terms`, `cookies` and `refunds` are drafts awaiting legal review — keep them
+ * here until a lawyer has signed them off, then remove them from this set.
+ */
+export const HIDDEN_PATHS = new Set(["/terms", "/cookies", "/refunds"]);
+
+export const pages: Record<Lang, PagesCopy> = {
+  ru: { ...ru, privacy: privacyCopy.ru },
+  uz: { ...uz, privacy: privacyCopy.uz },
+  kk: { ...kk, privacy: privacyCopy.kk },
+};
