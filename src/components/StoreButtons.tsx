@@ -1,10 +1,19 @@
 import { useI18n } from "../i18n";
 import { useDeviceType } from "../lib/device";
 
+/** The live iOS app. The Android build is still on the way, so Play stays a "soon" badge. */
+export const APP_STORE_URL = "https://apps.apple.com/uz/app/zbr/id6804237658";
+
 function AppStoreBadge({ recommended }: { recommended?: boolean }) {
   const { t } = useI18n();
   return (
-    <a href="#" className={`store-badge${recommended ? " recommended" : ""}`} aria-label="App Store">
+    <a
+      href={APP_STORE_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`store-badge${recommended ? " recommended" : ""}`}
+      aria-label={`${t.store.iosSmall} ${t.store.iosBig}`}
+    >
       <svg width="22" height="26" viewBox="0 0 22 26" fill="white" aria-hidden="true">
         <path d="M16.4 13.7c0-2.7 2.2-4 2.3-4-1.3-1.8-3.2-2.1-3.9-2.1-1.6-.2-3.2.9-4 .9-.8 0-2.2-.9-3.6-.9-1.8 0-3.6 1.1-4.5 2.7-1.9 3.4-.5 8.4 1.4 11.1.9 1.3 2 2.8 3.4 2.8 1.4-.1 1.9-.9 3.6-.9 1.7 0 2.1.9 3.6.9 1.5 0 2.4-1.3 3.4-2.6 1-1.5 1.5-3 1.5-3.1-.1 0-3.2-1.2-3.2-4.8zm-2.6-9c.7-.9 1.2-2.1 1.1-3.4-1 .1-2.3.7-3 1.6-.7.8-1.3 2.1-1.1 3.3 1.2.1 2.3-.6 3-1.5z" />
       </svg>
@@ -16,10 +25,11 @@ function AppStoreBadge({ recommended }: { recommended?: boolean }) {
   );
 }
 
-function PlayStoreBadge({ recommended }: { recommended?: boolean }) {
+/** Not a link yet — rendered inert so it never reads as a broken download. */
+function PlayStoreBadge() {
   const { t } = useI18n();
   return (
-    <a href="#" className={`store-badge${recommended ? " recommended" : ""}`} aria-label="Google Play">
+    <span className="store-badge soon" aria-label={`${t.store.playBig} — ${t.store.playSmall}`}>
       <svg width="24" height="26" viewBox="0 0 24 26" aria-hidden="true">
         <defs>
           <linearGradient id="pg1" x1="0" y1="0" x2="1" y2="1">
@@ -48,29 +58,17 @@ function PlayStoreBadge({ recommended }: { recommended?: boolean }) {
         <div className="label-small">{t.store.playSmall}</div>
         <div className="label-big">{t.store.playBig}</div>
       </div>
-    </a>
+    </span>
   );
 }
 
-/** Store badges, ordered so the visitor's own platform comes first + highlighted. */
+/** Store badges. iOS is the only shippable one, so it always leads. */
 export function StoreButtons({ stack = false }: { stack?: boolean }) {
   const device = useDeviceType();
-  const iosRecommended = device === "ios";
-  const androidRecommended = device === "android";
-  const iosFirst = !androidRecommended;
   return (
     <div style={{ display: "flex", flexDirection: stack ? "column" : "row", gap: 12, flexWrap: "wrap" }}>
-      {iosFirst ? (
-        <>
-          <AppStoreBadge recommended={iosRecommended} />
-          <PlayStoreBadge recommended={androidRecommended} />
-        </>
-      ) : (
-        <>
-          <PlayStoreBadge recommended={androidRecommended} />
-          <AppStoreBadge recommended={iosRecommended} />
-        </>
-      )}
+      <AppStoreBadge recommended={device === "ios"} />
+      <PlayStoreBadge />
     </div>
   );
 }

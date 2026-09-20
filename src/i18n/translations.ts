@@ -219,7 +219,7 @@ export const ru = {
     "privacy": "Конфиденциальность"
   },
   "store": {
-    "iosSmall": "Скоро в",
+    "iosSmall": "Загрузите в",
     "iosBig": "App Store",
     "playSmall": "Скоро в",
     "playBig": "Google Play"
@@ -603,7 +603,7 @@ export const uz: Translation = {
     "privacy": "Maxfiylik siyosati"
   },
   "store": {
-    "iosSmall": "Tez orada",
+    "iosSmall": "Yuklab oling",
     "iosBig": "App Store",
     "playSmall": "Tez orada",
     "playBig": "Google Play"
@@ -985,7 +985,7 @@ export const kk: Translation = {
     "privacy": "Maxfiylik siyasatı"
   },
   "store": {
-    "iosSmall": "Tez arada",
+    "iosSmall": "Júklep alıń",
     "iosBig": "App Store",
     "playSmall": "Tez arada",
     "playBig": "Google Play"
