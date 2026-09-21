@@ -168,6 +168,15 @@ a {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
+/* Google Play isn't live yet — inert badge, no hover lift, no pointer. */
+.store-badge.soon {
+  background: color-mix(in oklch, var(--ink) 78%, white);
+  cursor: default;
+}
+.store-badge.soon:hover {
+  background: color-mix(in oklch, var(--ink) 78%, white);
+  transform: none;
+}
 
 /* Section */
 section {
@@ -227,7 +236,9 @@ section {
 }
 .phone .notch {
   position: absolute;
-  top: 11px;
+  /* 11px clears the bezel, the rest floats it below the screen edge the way
+     a real Dynamic Island sits — at 11px it fused into the bezel. */
+  top: 22px;
   left: 50%;
   transform: translateX(-50%);
   width: 110px;

@@ -8,6 +8,13 @@ import { submitLead } from "../lib/leads";
 
 type Status = "idle" | "sending" | "done" | "error";
 
+// Live accounts only. X and YouTube used to render here as badges pointing at
+// "#", so they are dropped until there is something real to link to.
+const SOCIALS = [
+  { label: "IG", name: "Instagram", href: "https://www.instagram.com/zbr_uz/" },
+  { label: "TG", name: "Telegram", href: "https://t.me/furqaty" },
+];
+
 export function Footer({ dark = true }: { dark?: boolean }) {
   const { t, lang } = useI18n();
   const [phone, setPhone] = useState("");
@@ -173,10 +180,13 @@ export function Footer({ dark = true }: { dark?: boolean }) {
             <ZbrLogo size={36} dark={dark} />
             <p style={{ fontSize: 14, opacity: 0.6, marginTop: 16, maxWidth: 280 }}>{t.footer.tagline}</p>
             <div style={{ display: "flex", gap: 10, marginTop: 20 }}>
-              {["X", "IG", "TG", "YT"].map((s) => (
+              {SOCIALS.map((s) => (
                 <a
-                  key={s}
-                  href="#"
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.name}
                   style={{
                     width: 36,
                     height: 36,
@@ -190,7 +200,7 @@ export function Footer({ dark = true }: { dark?: boolean }) {
                     color: dark ? "white" : "var(--ink)",
                   }}
                 >
-                  {s}
+                  {s.label}
                 </a>
               ))}
             </div>
