@@ -132,7 +132,7 @@ const TRANSLATIONS = {
       c4: "Юридическое", c4l: ["Конфиденциальность","Условия","Cookies","Возвраты"],
       copy: "© 2026 ZBR Technologies. Все права защищены.", made: "Сделано с 🔥 в Ташкенте",
     },
-    store: { iosSmall: "Скоро в", iosBig: "App Store", playSmall: "Скоро в", playBig: "Google Play" },
+    store: { iosSmall: "Загрузите в", iosBig: "App Store", playSmall: "Скоро в", playBig: "Google Play" },
   },
 
   uz: {
@@ -265,7 +265,7 @@ const TRANSLATIONS = {
       c4: "Huquqiy", c4l: ["Maxfiylik","Shartlar","Cookies","Qaytarish"],
       copy: "© 2026 ZBR Technologies. Barcha huquqlar himoyalangan.", made: "Toshkentda 🔥 bilan tayyorlandi",
     },
-    store: { iosSmall: "Tez orada", iosBig: "App Store", playSmall: "Tez orada", playBig: "Google Play" },
+    store: { iosSmall: "Yuklab oling", iosBig: "App Store", playSmall: "Tez orada", playBig: "Google Play" },
   },
 
   kk: {
@@ -398,7 +398,7 @@ const TRANSLATIONS = {
       c4: "Huqıqıy", c4l: ["Maxfiylik","Shártler","Cookies","Qaytarıw"],
       copy: "© 2026 ZBR Technologies. Barlıq huqıqlar qorǵalǵan.", made: "Tashkentte 🔥 menen islengen",
     },
-    store: { iosSmall: "Tez arada", iosBig: "App Store", playSmall: "Tez arada", playBig: "Google Play" },
+    store: { iosSmall: "Júklep alıń", iosBig: "App Store", playSmall: "Tez arada", playBig: "Google Play" },
   },
 };
 
