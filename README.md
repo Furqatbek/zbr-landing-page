@@ -44,11 +44,11 @@ a retry error — nothing is silently dropped.
 Phone numbers are the only contact field (email is uncommon in the target
 market). They're validated and normalized to `+998XXXXXXXXX` before sending.
 
-## QR restaurant pages — `/r/{slug}`
+## QR restaurant pages — `/{slug}`
 
-Posters and stickers carry a QR pointing at `/r/{slug}` (a numeric id also
-works, so a code can go to print before anyone agrees a slug). The page renders
-the venue and its menu from one public, unauthenticated call:
+Posters and stickers carry a QR pointing at the bare slug — `app.zbrr.uz/qahvoon`
+(a numeric id also works, so a code can go to print before anyone agrees a slug).
+The page renders the venue and its menu from one public, unauthenticated call:
 
 ```http
 GET https://zbrr.uz/api/v1/public/r/{slugOrId}
@@ -80,6 +80,23 @@ permission prompt.
 **CORS:** the API only allows `https://app.zbrr.uz` as an origin, so a browser on
 any other host is blocked. `vite.config.ts` proxies `/api/v1` in dev to make the
 request same-origin; set `VITE_API_BASE` to point at another backend.
+
+### Reserved slugs
+
+Because venues live at the root, a slug that collides with one of the site's own
+top-level paths is unreachable — the marketing page wins, since React Router
+ranks static segments above dynamic ones. **Whoever assigns slugs must avoid:**
+
+```
+about  blog  careers  cookies  courier-offer  for-offices  partner-offer
+press  privacy  r  refunds  restaurant-dashboard  safety  status  support  terms
+```
+
+`terms`, `cookies` and `refunds` have no pages yet but are routed home to keep
+them reserved. `r` is kept because `/r/{slug}`, the path the original API doc
+specified, still redirects to `/{slug}` so any QR already printed keeps working.
+Adding a new top-level marketing route adds to this list — the two namespaces
+share one root.
 
 ## Deployment
 
