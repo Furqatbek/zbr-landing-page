@@ -3,13 +3,20 @@
 // No auth, no key. Everything is wrapped in the platform envelope, so the
 // payload lives under `data` — never read the root.
 //
-// Two conventions from the API docs drive the types below:
-//   * A null field is omitted from the JSON entirely — not `null`, not `""`.
-//     So everything optional is `?:` and every read needs optional chaining.
-//   * `isCurrentlyOpen` is the flag to read. The API docs say `isOpen` is never
-//     sent, but live responses do carry it — it is the owner's switch alone,
-//     while `isCurrentlyOpen` also accounts for the clock. So `isOpen` stays out
-//     of these types deliberately, to keep it from being reached for by mistake.
+// Three conventions drive the types below:
+//   * An optional field may be missing entirely, or present as `""`. An empty
+//     string is a stored value rather than a missing one, so the API does not
+//     strip it. Strings are therefore tested for truthiness — `if (x)`, never
+//     `x !== undefined`. Numbers stay on `!= null`, because 0 carries meaning:
+//     a `deliveryFee` of 0 is free delivery, not an absent value.
+//   * `isCurrentlyOpen` is the flag to read, and `isOpen` is deliberately absent
+//     from these types. Both are sent and they genuinely differ: `isOpen` is the
+//     owner's on/off switch alone, while `isCurrentlyOpen` is that switch *and*
+//     the clock being inside opening hours. A venue left switched on at 03:00
+//     reports `isOpen: true` with `isCurrentlyOpen: false`.
+//   * `effectivePrice` is what the order charges. `priceWithMargin` is its input
+//     rather than a rival figure — where it is set, `effectivePrice` is that
+//     number — so it has no place here either.
 
 import type { Lang } from "../i18n";
 
