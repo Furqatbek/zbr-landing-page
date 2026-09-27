@@ -260,6 +260,51 @@ section {
   font-weight: 500;
 }
 
+/* Category carousel on the QR restaurant page. Sticks under the 64px slim nav
+   so the menu stays navigable while scrolling; the chips reuse .pill so the
+   rail reads as part of the existing design rather than a new control. */
+.cat-bar {
+  position: sticky;
+  top: 64px;
+  z-index: 40;
+  background: var(--bg);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.cat-rail {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  /* A visible scrollbar would break the carousel look on desktop. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.cat-rail::-webkit-scrollbar {
+  display: none;
+}
+.cat-chip {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.cat-chip.active {
+  background: var(--accent);
+  color: white;
+}
+/* Clears the sticky nav + rail when a chip scrolls its section into view. */
+.menu-cat {
+  scroll-margin-top: 132px;
+}
+
+/* Open-status pill on the QR restaurant page. */
+.r-open {
+  background: color-mix(in oklch, var(--green) 16%, transparent);
+  color: color-mix(in oklch, var(--green) 65%, black);
+}
+
 .tag-accent {
   background: color-mix(in oklch, var(--accent) 15%, transparent);
   color: var(--accent);
