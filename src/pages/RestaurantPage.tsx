@@ -6,6 +6,7 @@ import { LangSwitcher } from "../components/LangSwitcher";
 import { StoreButtons } from "../components/StoreButtons";
 import { RestaurantHeader } from "../components/restaurant/RestaurantHeader";
 import { MenuList } from "../components/restaurant/MenuList";
+import { AppPromo } from "../components/restaurant/AppPromo";
 import {
   ApiError,
   fetchRestaurant,
@@ -52,6 +53,7 @@ function DownloadCta({ promo }: { promo: string | null }) {
   const { t } = useI18n();
   return (
     <section
+      className="on-dark"
       style={{
         background: "var(--ink)",
         color: "white",
@@ -227,6 +229,9 @@ export function RestaurantPage() {
           <MenuList menu={data.menu} />
           <DownloadCta promo={promo} />
         </div>
+        {/* Only once there is a menu to stay for — not over a 404 or an error,
+            which already lead with the app. */}
+        <AppPromo restaurantName={data.restaurant.name} />
       </>
     );
   }
