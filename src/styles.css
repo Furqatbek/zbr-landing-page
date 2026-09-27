@@ -260,6 +260,12 @@ section {
   font-weight: 500;
 }
 
+/* Open-status pill on the QR restaurant page. */
+.r-open {
+  background: color-mix(in oklch, var(--green) 16%, transparent);
+  color: color-mix(in oklch, var(--green) 65%, black);
+}
+
 .tag-accent {
   background: color-mix(in oklch, var(--accent) 15%, transparent);
   color: var(--accent);

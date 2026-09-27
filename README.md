@@ -44,6 +44,43 @@ a retry error — nothing is silently dropped.
 Phone numbers are the only contact field (email is uncommon in the target
 market). They're validated and normalized to `+998XXXXXXXXX` before sending.
 
+## QR restaurant pages — `/r/{slug}`
+
+Posters and stickers carry a QR pointing at `/r/{slug}` (a numeric id also
+works, so a code can go to print before anyone agrees a slug). The page renders
+the venue and its menu from one public, unauthenticated call:
+
+```http
+GET https://zbrr.uz/api/v1/public/r/{slugOrId}
+Accept-Language: uz | ru | en
+```
+
+Client and types live in [`src/lib/restaurant.ts`](src/lib/restaurant.ts); the
+page is [`src/pages/RestaurantPage.tsx`](src/pages/RestaurantPage.tsx).
+
+A few contract details worth keeping in mind when editing:
+
+- The payload is under `data` — the root is the platform envelope.
+- Prices render from `effectivePrice`, not `price`; `price` only appears as the
+  struck-through original when `onSale`.
+- Items grey out on `orderable`, not `inStock` — `orderable` also accounts for
+  sizes being available.
+- Null fields are **absent** from the JSON rather than `null`, so reads use
+  optional chaining throughout.
+- `isCurrentlyOpen` is the only open flag. `isOpen` is in the OpenAPI schema but
+  never sent, so it is deliberately absent from our types.
+- An empty `menu` is a real state (venue live, dishes not loaded yet) and a 404
+  is expected eventually — a poster outlives the venue. Both have designed
+  states rather than a blank page.
+
+`lat`/`lng` are optional and add `distanceKm` plus an ETA range. The page asks
+for location only when the visitor taps for it: a QR scan should not open with a
+permission prompt.
+
+**CORS:** the API only allows `https://app.zbrr.uz` as an origin, so a browser on
+any other host is blocked. `vite.config.ts` proxies `/api/v1` in dev to make the
+request same-origin; set `VITE_API_BASE` to point at another backend.
+
 ## Deployment
 
 Ships as a static SPA plus one serverless function. On **Vercel**, the included

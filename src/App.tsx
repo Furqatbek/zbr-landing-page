@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { Home } from "./pages/Home";
 import { PitchPage } from "./components/PitchPage";
 import { InfoPage } from "./components/InfoPage";
+import { RestaurantPage } from "./pages/RestaurantPage";
 import { HIDDEN_PATHS, type PageKey } from "./i18n/pages";
 
 /** Footer-linked secondary pages: URL path → copy key in `i18n/pages.ts`. */
@@ -54,6 +55,9 @@ export function App() {
       <ScrollManager />
       <Routes>
         <Route path="/" element={<Home />} />
+        {/* QR posters point here: /r/{slug}, or /r/{id} when a code went to
+            print before anyone agreed a slug. */}
+        <Route path="/r/:slug" element={<RestaurantPage />} />
         <Route path="/partner-offer" element={<PitchPage variant="vendor" />} />
         <Route path="/courier-offer" element={<PitchPage variant="courier" />} />
         {Object.entries(INFO_ROUTES)

@@ -54,6 +54,16 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }
 
+/**
+ * Fills `{token}` placeholders in a translated string, so each language keeps
+ * its own word order: fill(t.r.openUntil, { time: "23:00" }).
+ */
+export function fill(template: string, values: Record<string, string | number>): string {
+  return template.replace(/\{(\w+)\}/g, (match, key: string) =>
+    key in values ? String(values[key]) : match,
+  );
+}
+
 export function useI18n(): I18nValue {
   const ctx = useContext(I18nContext);
   if (!ctx) throw new Error("useI18n must be used within <I18nProvider>");

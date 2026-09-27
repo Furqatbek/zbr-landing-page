@@ -48,4 +48,15 @@ function leadDevApi(): Plugin {
 
 export default defineConfig({
   plugins: [react(), leadDevApi()],
+  server: {
+    proxy: {
+      // The restaurant API only allows https://app.zbrr.uz as a CORS origin, so
+      // a browser on localhost is blocked. Proxying makes the dev request
+      // same-origin; production calls the host directly (see lib/restaurant.ts).
+      "/api/v1": {
+        target: "https://zbrr.uz",
+        changeOrigin: true,
+      },
+    },
+  },
 });
