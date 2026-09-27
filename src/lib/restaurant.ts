@@ -165,7 +165,10 @@ export async function fetchRestaurant(
     /* Non-JSON body (a gateway error page, say) — fall through to the status. */
   }
 
-  if (!res.ok || !body?.success || !body.data) {
+  // `data.restaurant` is checked, not just `data`: a success envelope carrying an
+  // empty object would otherwise reach the page and crash it on the first read.
+  // Better a handled error state than a blank screen on a poster.
+  if (!res.ok || !body?.success || !body.data?.restaurant) {
     throw new ApiError(body?.message || `Request failed (${res.status})`, res.status);
   }
 
