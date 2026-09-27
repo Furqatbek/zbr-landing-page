@@ -1,4 +1,4 @@
-import { fill, useI18n } from "../../i18n";
+import { fill, plural, useI18n } from "../../i18n";
 import { formatDistance, formatMoney, formatTime, type Restaurant } from "../../lib/restaurant";
 
 /** One labelled figure in the strip under the venue name. */
@@ -20,7 +20,7 @@ interface Props {
 }
 
 export function RestaurantHeader({ restaurant: r, onLocate, locating, locationFailed }: Props) {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
 
   const closes = formatTime(r.closesAt);
   const opens = formatTime(r.opensAt);
@@ -111,7 +111,7 @@ export function RestaurantHeader({ restaurant: r, onLocate, locating, locationFa
               <strong>{r.averageRating.toFixed(1)}</strong>
               {r.totalRatings != null ? (
                 <span style={{ color: "var(--muted)", fontWeight: 400 }}>
-                  {fill(t.r.ratingsCount, { n: r.totalRatings })}
+                  {fill(plural(lang, r.totalRatings, t.r.ratingsCount), { n: r.totalRatings })}
                 </span>
               ) : null}
             </span>

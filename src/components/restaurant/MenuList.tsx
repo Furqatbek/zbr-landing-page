@@ -101,6 +101,15 @@ function Item({ item }: { item: MenuItem }) {
   );
 }
 
+/**
+ * Orders categories and dishes the way the venue arranged them. Ties are common
+ * in live data (several rows share a `sortOrder`, often 0), and `sort` is stable,
+ * so tied entries keep the order the API sent them in.
+ */
+function sortBySortOrder<T extends { sortOrder?: number }>(rows: T[]): T[] {
+  return [...rows].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+}
+
 export function MenuList({ menu }: { menu: MenuCategory[] }) {
   const { t } = useI18n();
 
@@ -127,7 +136,7 @@ export function MenuList({ menu }: { menu: MenuCategory[] }) {
     );
   }
 
-  const categories = [...menu].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+  const categories = sortBySortOrder(menu);
 
   return (
     <div style={{ display: "grid", gap: 44 }}>
@@ -140,7 +149,7 @@ export function MenuList({ menu }: { menu: MenuCategory[] }) {
             <p style={{ color: "var(--muted)", margin: "0 0 8px", fontSize: 15 }}>{cat.description}</p>
           ) : null}
           <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 0" }}>
-            {(cat.items ?? []).map((item) => (
+            {sortBySortOrder(cat.items ?? []).map((item) => (
               <Item key={item.id} item={item} />
             ))}
           </ul>

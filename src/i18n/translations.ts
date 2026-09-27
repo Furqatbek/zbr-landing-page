@@ -239,7 +239,11 @@ export const ru = {
     "prepLabel": "Готовят",
     "minutes": "{n} мин",
     "currency": "сум",
-    "ratingsCount": "{n} оценок",
+    "ratingsCount": {
+      "one": "{n} оценка",
+      "few": "{n} оценки",
+      "many": "{n} оценок"
+    },
     "showDistance": "Показать расстояние",
     "locating": "Определяем…",
     "locationFailed": "Не удалось определить местоположение",
@@ -259,6 +263,7 @@ export const ru = {
     "notFoundSub": "Возможно, оно закрылось или сменило адрес в ZBR. Но рядом наверняка есть что-то вкусное.",
     "findNearby": "Найти рестораны рядом",
     "errorTitle": "Не удалось загрузить меню",
+    "errNetwork": "Проверь соединение и попробуй ещё раз.",
     "retry": "Повторить"
   },
   "pitchHome": "На главную",
@@ -660,7 +665,11 @@ export const uz: Translation = {
     "prepLabel": "Tayyorlanadi",
     "minutes": "{n} daqiqa",
     "currency": "so'm",
-    "ratingsCount": "{n} ta baho",
+    "ratingsCount": {
+      "one": "{n} ta baho",
+      "few": "{n} ta baho",
+      "many": "{n} ta baho"
+    },
     "showDistance": "Masofani ko'rsatish",
     "locating": "Aniqlanmoqda…",
     "locationFailed": "Joylashuvni aniqlab bo'lmadi",
@@ -680,6 +689,7 @@ export const uz: Translation = {
     "notFoundSub": "U yopilgan yoki ZBR'da manzilini o'zgartirgan bo'lishi mumkin. Lekin yaqin atrofda albatta mazali joy bor.",
     "findNearby": "Yaqindagi restoranlarni topish",
     "errorTitle": "Menyuni yuklab bo'lmadi",
+    "errNetwork": "Aloqani tekshirib, yana urinib ko'ring.",
     "retry": "Qayta urinish"
   },
   "pitchHome": "Bosh sahifa",
@@ -1079,7 +1089,11 @@ export const kk: Translation = {
     "prepLabel": "Tayyarlanadı",
     "minutes": "{n} minut",
     "currency": "sum",
-    "ratingsCount": "{n} baha",
+    "ratingsCount": {
+      "one": "{n} baha",
+      "few": "{n} baha",
+      "many": "{n} baha"
+    },
     "showDistance": "Qashıqlıqtı kórsetiw",
     "locating": "Anıqlanıp atır…",
     "locationFailed": "Ornalasıwdı anıqlaw múmkin bolmadı",
@@ -1099,6 +1113,7 @@ export const kk: Translation = {
     "notFoundSub": "Ol jabılǵan yamasa ZBR'da mánzilin ózgertken bolıwı múmkin. Biraq jaqın átirapta álbette dámli orın bar.",
     "findNearby": "Jaqındaǵı restoranlardı tabıw",
     "errorTitle": "Menyudı júklew múmkin bolmadı",
+    "errNetwork": "Baylanıstı tekserip, qayta urınıp kóriń.",
     "retry": "Qayta urınıw"
   },
   "pitchHome": "Bas bet",

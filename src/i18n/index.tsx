@@ -64,6 +64,28 @@ export function fill(template: string, values: Record<string, string | number>):
   );
 }
 
+/** The three forms a counted noun needs. See `plural`. */
+export interface PluralForms {
+  one: string;
+  few: string;
+  many: string;
+}
+
+/**
+ * Picks the plural form for a count. Russian inflects — 1 оценка, 2 оценки,
+ * 5 оценок — with the familiar teens exception. Uzbek and Karakalpak do not
+ * inflect a noun after a numeral, so their three forms are identical and
+ * `many` stands in for all of them.
+ */
+export function plural(lang: Lang, n: number, forms: PluralForms): string {
+  if (lang !== "ru") return forms.many;
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return forms.one;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return forms.few;
+  return forms.many;
+}
+
 export function useI18n(): I18nValue {
   const ctx = useContext(I18nContext);
   if (!ctx) throw new Error("useI18n must be used within <I18nProvider>");

@@ -6,8 +6,10 @@
 // Two conventions from the API docs drive the types below:
 //   * A null field is omitted from the JSON entirely — not `null`, not `""`.
 //     So everything optional is `?:` and every read needs optional chaining.
-//   * `isOpen` appears in the OpenAPI schema but is never sent. `isCurrentlyOpen`
-//     is the real flag, and it is deliberately the only one modelled here.
+//   * `isCurrentlyOpen` is the flag to read. The API docs say `isOpen` is never
+//     sent, but live responses do carry it — it is the owner's switch alone,
+//     while `isCurrentlyOpen` also accounts for the clock. So `isOpen` stays out
+//     of these types deliberately, to keep it from being reached for by mistake.
 
 import type { Lang } from "../i18n";
 
@@ -51,6 +53,8 @@ export interface MenuItem {
   prepTimeMinutes?: number;
   vegetarian?: boolean;
   spicy?: boolean;
+  /** The venue's ordering within its category. Ties are common (often all 0). */
+  sortOrder?: number;
   /** Sizes and add-ons. Empty on every live item today; ignored by this page. */
   variants?: unknown[];
   options?: unknown[];
@@ -132,6 +136,15 @@ export class ApiError extends Error {
   get notFound(): boolean {
     return this.status === 404;
   }
+
+  /**
+   * The request never got a reply — offline, DNS, or a CORS rejection. The
+   * browser deliberately hides which, so there is no status to report and the
+   * page shows a translated message rather than fetch's raw "Failed to fetch".
+   */
+  get isNetwork(): boolean {
+    return this.status === 0;
+  }
 }
 
 /**
@@ -153,10 +166,17 @@ export async function fetchRestaurant(
 
   // No `cache` override: the response carries `max-age=60, public` and a poster
   // gets scanned in bursts, so let the browser and any CDN honour it.
-  const res = await fetch(url, {
-    headers: { "Accept-Language": API_LANG[lang] },
-    signal,
-  });
+  let res: Response;
+  try {
+    res = await fetch(url, {
+      headers: { "Accept-Language": API_LANG[lang] },
+      signal,
+    });
+  } catch (err) {
+    // An abort is the caller's own doing, so let it through untouched.
+    if (signal?.aborted) throw err;
+    throw new ApiError("", 0);
+  }
 
   let body: Envelope<RestaurantPayload> | undefined;
   try {

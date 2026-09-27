@@ -204,8 +204,11 @@ export function RestaurantPage() {
         <h1 className="display" style={{ fontSize: "clamp(26px, 4vw, 36px)", margin: "0 0 10px" }}>
           {t.r.errorTitle}
         </h1>
-        {/* The envelope's `message` is written to be displayable. */}
-        <p style={{ color: "var(--muted)", margin: "0 auto 24px", maxWidth: 420 }}>{error.message}</p>
+        {/* The envelope's `message` is written to be displayable; a request that
+            never got a reply has none, so it gets translated copy instead. */}
+        <p style={{ color: "var(--muted)", margin: "0 auto 24px", maxWidth: 420 }}>
+          {error instanceof ApiError && error.isNetwork ? t.r.errNetwork : error.message}
+        </p>
         <button type="button" className="btn btn-primary" onClick={() => setReloadKey((k) => k + 1)}>
           {t.r.retry}
         </button>
