@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useRef, useState } from "react";
 import { fill, useI18n } from "../../i18n";
 import { formatMoney, type MenuCategory, type MenuItem } from "../../lib/restaurant";
 
@@ -110,6 +111,79 @@ function sortBySortOrder<T extends { sortOrder?: number }>(rows: T[]): T[] {
   return [...rows].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
 }
 
+/**
+ * Horizontal category rail above the menu. Tapping a chip jumps to that
+ * section, and the chip for whatever section you have scrolled to highlights
+ * itself and slides into view — so the rail always says where you are.
+ *
+ * Only worth rendering with something to choose between, so callers check the
+ * count first.
+ */
+function CategoryRail({ categories }: { categories: MenuCategory[] }) {
+  const [active, setActive] = useState<number | null>(categories[0]?.id ?? null);
+  const railRef = useRef<HTMLDivElement>(null);
+  const chips = useRef(new Map<number, HTMLButtonElement>());
+
+  // Highlight whichever section sits just below the sticky nav and rail. The
+  // bottom margin keeps a section from staying "active" once it has mostly
+  // scrolled past.
+  useEffect(() => {
+    const sections = categories
+      .map((c) => document.getElementById(`cat-${c.id}`))
+      .filter((el): el is HTMLElement => el !== null);
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const topmost = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (topmost) setActive(Number(topmost.target.id.slice("cat-".length)));
+      },
+      { rootMargin: "-140px 0px -65% 0px" },
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [categories]);
+
+  // Centre the active chip by moving the rail itself. `scrollIntoView` here
+  // could scroll the page as well, which would fight the user.
+  useEffect(() => {
+    if (active === null) return;
+    const chip = chips.current.get(active);
+    const rail = railRef.current;
+    if (!chip || !rail) return;
+    const centred = chip.offsetLeft - rail.clientWidth / 2 + chip.clientWidth / 2;
+    rail.scrollTo({ left: Math.max(0, centred), behavior: "smooth" });
+  }, [active]);
+
+  const jumpTo = useCallback((id: number) => {
+    document.getElementById(`cat-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
+  return (
+    <div className="cat-bar">
+      <div className="cat-rail" ref={railRef}>
+        {categories.map((cat) => (
+          <button
+            key={cat.id}
+            type="button"
+            ref={(el) => {
+              if (el) chips.current.set(cat.id, el);
+              else chips.current.delete(cat.id);
+            }}
+            className={`pill cat-chip${active === cat.id ? " active" : ""}`}
+            aria-current={active === cat.id ? "true" : undefined}
+            onClick={() => jumpTo(cat.id)}
+          >
+            {cat.name}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function MenuList({ menu }: { menu: MenuCategory[] }) {
   const { t } = useI18n();
 
@@ -139,22 +213,25 @@ export function MenuList({ menu }: { menu: MenuCategory[] }) {
   const categories = sortBySortOrder(menu);
 
   return (
-    <div style={{ display: "grid", gap: 44 }}>
-      {categories.map((cat) => (
-        <section key={cat.id} style={{ padding: 0 }}>
-          <h2 className="display" style={{ fontSize: "clamp(22px, 3vw, 30px)", margin: "0 0 4px" }}>
-            {cat.name}
-          </h2>
-          {cat.description ? (
-            <p style={{ color: "var(--muted)", margin: "0 0 8px", fontSize: 15 }}>{cat.description}</p>
-          ) : null}
-          <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 0" }}>
-            {sortBySortOrder(cat.items ?? []).map((item) => (
-              <Item key={item.id} item={item} />
-            ))}
-          </ul>
-        </section>
-      ))}
+    <div>
+      {categories.length > 1 ? <CategoryRail categories={categories} /> : null}
+      <div style={{ display: "grid", gap: 44, paddingTop: categories.length > 1 ? 32 : 0 }}>
+        {categories.map((cat) => (
+          <section key={cat.id} id={`cat-${cat.id}`} className="menu-cat" style={{ padding: 0 }}>
+            <h2 className="display" style={{ fontSize: "clamp(22px, 3vw, 30px)", margin: "0 0 4px" }}>
+              {cat.name}
+            </h2>
+            {cat.description ? (
+              <p style={{ color: "var(--muted)", margin: "0 0 8px", fontSize: 15 }}>{cat.description}</p>
+            ) : null}
+            <ul style={{ listStyle: "none", padding: 0, margin: "12px 0 0" }}>
+              {sortBySortOrder(cat.items ?? []).map((item) => (
+                <Item key={item.id} item={item} />
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
     </div>
   );
 }
