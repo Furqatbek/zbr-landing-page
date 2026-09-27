@@ -98,6 +98,40 @@ specified, still redirects to `/{slug}` so any QR already printed keeps working.
 Adding a new top-level marketing route adds to this list — the two namespaces
 share one root.
 
+## Universal Links / App Links — `/.well-known/`
+
+Opening the app directly, instead of the web page, when someone with the app
+installed taps a QR link needs two files served from **the host in the link**.
+The link is `app.zbrr.uz`, so these are ours to serve — the backend cannot do
+it from `zbrr.uz`, because iOS and Android fetch them from the link's own host.
+
+Drop them in [`public/.well-known/`](public/) and they ship with the build:
+
+| File | Supplied by | Needs |
+|---|---|---|
+| `apple-app-site-association` (no extension) | iOS team | Team ID + bundle id (`app.zbr.customer`) |
+| `assetlinks.json` | Android team | package name + **release** signing SHA-256 |
+
+`vercel.json` is already set up for them, and both parts matter:
+
+- **The SPA rewrite excludes `.well-known/`.** Without that exclusion every path
+  falls through to `index.html`, so both files answered `200 text/html` with the
+  landing page in them — which is what they did before this was added. Neither
+  OS reports the mistake; the link just quietly opens the browser instead.
+- **`apple-app-site-association` is served as `application/json`.** It has no
+  file extension, so nothing else would infer the type, and iOS rejects it
+  otherwise. `assetlinks.json` needs no rule — its extension is enough.
+
+Check them on the deployed site after adding:
+
+```bash
+curl -sI https://app.zbrr.uz/.well-known/apple-app-site-association | grep -i content-type
+curl -s  https://app.zbrr.uz/.well-known/assetlinks.json | jq .
+```
+
+Both must return JSON, not HTML. Until the files exist the paths 404, which is
+correct — an app that is not installed falls back to this page either way.
+
 ## Deployment
 
 Ships as a static SPA plus one serverless function. On **Vercel**, the included
