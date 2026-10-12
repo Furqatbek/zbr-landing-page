@@ -221,7 +221,7 @@ export const ru = {
   "store": {
     "iosSmall": "Загрузите в",
     "iosBig": "App Store",
-    "playSmall": "Скоро в",
+    "playSmall": "Загрузите в",
     "playBig": "Google Play"
   },
   "r": {
@@ -652,7 +652,7 @@ export const uz: Translation = {
   "store": {
     "iosSmall": "Yuklab oling",
     "iosBig": "App Store",
-    "playSmall": "Tez orada",
+    "playSmall": "Yuklab oling",
     "playBig": "Google Play"
   },
   "r": {
@@ -1081,7 +1081,7 @@ export const kk: Translation = {
   "store": {
     "iosSmall": "Júklep alıń",
     "iosBig": "App Store",
-    "playSmall": "Tez arada",
+    "playSmall": "Júklep alıń",
     "playBig": "Google Play"
   },
   "r": {

@@ -133,15 +133,6 @@ a { color: inherit; text-decoration: none; }
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
-/* Google Play isn't live yet — inert badge, no hover lift, no pointer. */
-.store-badge.soon {
-  background: color-mix(in oklch, var(--ink) 78%, white);
-  cursor: default;
-}
-.store-badge.soon:hover {
-  background: color-mix(in oklch, var(--ink) 78%, white);
-  transform: none;
-}
 
 /* Section */
 section { padding: 96px 0; position: relative; }
