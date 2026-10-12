@@ -110,7 +110,7 @@ Drop them in [`public/.well-known/`](public/) and they ship with the build:
 | File | Supplied by | Needs |
 |---|---|---|
 | `apple-app-site-association` (no extension) | iOS team | Team ID + bundle id (`app.zbr.customer`) |
-| `assetlinks.json` | Android team | package name + **release** signing SHA-256 |
+| `assetlinks.json` | Android team | package name (`app.zbr.customer`) + **release** signing SHA-256 |
 
 `vercel.json` is already set up for them, and both parts matter:
 

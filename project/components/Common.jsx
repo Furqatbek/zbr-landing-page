@@ -49,8 +49,10 @@ function useDeviceType() {
 }
 
 /* ----------------- STORE BADGES ----------------- */
-/* The live iOS app. The Android build is still on the way, so Play stays a "soon" badge. */
+/* Both apps are live. No `hl` on the Play link: it then follows the visitor's
+   own locale rather than forcing Russian on a trilingual audience. */
 const APP_STORE_URL = "https://apps.apple.com/uz/app/zbr/id6804237658";
+const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=app.zbr.customer";
 
 function AppStoreBadge({ recommended, dark }) {
   useLang();
@@ -73,11 +75,16 @@ function AppStoreBadge({ recommended, dark }) {
   );
 }
 
-/* Not a link yet — rendered inert so it never reads as a broken download. */
-function PlayStoreBadge({ dark }) {
+function PlayStoreBadge({ recommended, dark }) {
   useLang();
   return (
-    <span className="store-badge soon" aria-label={`${t("store.playBig")} — ${t("store.playSmall")}`}>
+    <a
+      href={PLAY_STORE_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`store-badge${recommended ? " recommended" : ""}`}
+      aria-label={`${t("store.playSmall")} ${t("store.playBig")}`}
+    >
       <svg width="24" height="26" viewBox="0 0 24 26" aria-hidden="true">
         <defs>
           <linearGradient id="pg1" x1="0" y1="0" x2="1" y2="1">
@@ -106,13 +113,16 @@ function PlayStoreBadge({ dark }) {
         <div className="label-small">{t("store.playSmall")}</div>
         <div className="label-big">{t("store.playBig")}</div>
       </div>
-    </span>
+    </a>
   );
 }
 
-/* Store badges. iOS is the only shippable one, so it always leads. */
+/* Store badges, with the visitor's own platform first and highlighted. */
 function StoreButtons({ stack, dark }) {
   const device = useDeviceType();
+  const androidFirst = device === "android";
+  const ios = <AppStoreBadge recommended={device === "ios"} dark={dark} />;
+  const play = <PlayStoreBadge recommended={androidFirst} dark={dark} />;
   return (
     <div style={{
       display: "flex",
@@ -120,8 +130,8 @@ function StoreButtons({ stack, dark }) {
       gap: 12,
       flexWrap: "wrap"
     }}>
-      <AppStoreBadge recommended={device === "ios"} dark={dark} />
-      <PlayStoreBadge dark={dark} />
+      {androidFirst ? play : ios}
+      {androidFirst ? ios : play}
     </div>
   );
 }

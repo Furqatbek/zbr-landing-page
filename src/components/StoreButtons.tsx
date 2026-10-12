@@ -1,8 +1,10 @@
 import { useI18n } from "../i18n";
 import { useDeviceType } from "../lib/device";
 
-/** The live iOS app. The Android build is still on the way, so Play stays a "soon" badge. */
+/** Both apps are live. No `hl` on the Play link: it then follows the visitor's
+    own locale rather than forcing Russian on a trilingual audience. */
 export const APP_STORE_URL = "https://apps.apple.com/uz/app/zbr/id6804237658";
+export const PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=app.zbr.customer";
 
 function AppStoreBadge({ recommended }: { recommended?: boolean }) {
   const { t } = useI18n();
@@ -25,11 +27,16 @@ function AppStoreBadge({ recommended }: { recommended?: boolean }) {
   );
 }
 
-/** Not a link yet — rendered inert so it never reads as a broken download. */
-function PlayStoreBadge() {
+function PlayStoreBadge({ recommended }: { recommended?: boolean }) {
   const { t } = useI18n();
   return (
-    <span className="store-badge soon" aria-label={`${t.store.playBig} — ${t.store.playSmall}`}>
+    <a
+      href={PLAY_STORE_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`store-badge${recommended ? " recommended" : ""}`}
+      aria-label={`${t.store.playSmall} ${t.store.playBig}`}
+    >
       <svg width="24" height="26" viewBox="0 0 24 26" aria-hidden="true">
         <defs>
           <linearGradient id="pg1" x1="0" y1="0" x2="1" y2="1">
@@ -58,17 +65,25 @@ function PlayStoreBadge() {
         <div className="label-small">{t.store.playSmall}</div>
         <div className="label-big">{t.store.playBig}</div>
       </div>
-    </span>
+    </a>
   );
 }
 
-/** Store badges. iOS is the only shippable one, so it always leads. */
+/**
+ * Store badges, with the visitor's own platform first and highlighted. That
+ * ordering was dropped while Android was unreleased, because it pointed Android
+ * visitors at a badge they could not act on; with both apps live it is right
+ * again, and a desktop visitor sees iOS first.
+ */
 export function StoreButtons({ stack = false }: { stack?: boolean }) {
   const device = useDeviceType();
+  const androidFirst = device === "android";
+  const ios = <AppStoreBadge recommended={device === "ios"} />;
+  const play = <PlayStoreBadge recommended={androidFirst} />;
   return (
     <div style={{ display: "flex", flexDirection: stack ? "column" : "row", gap: 12, flexWrap: "wrap" }}>
-      <AppStoreBadge recommended={device === "ios"} />
-      <PlayStoreBadge />
+      {androidFirst ? play : ios}
+      {androidFirst ? ios : play}
     </div>
   );
 }

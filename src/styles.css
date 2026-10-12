@@ -168,15 +168,6 @@ a {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
-/* Google Play isn't live yet — inert badge, no hover lift, no pointer. */
-.store-badge.soon {
-  background: color-mix(in oklch, var(--ink) 78%, white);
-  cursor: default;
-}
-.store-badge.soon:hover {
-  background: color-mix(in oklch, var(--ink) 78%, white);
-  transform: none;
-}
 
 /* Section */
 section {
@@ -261,19 +252,12 @@ section {
 }
 
 /* Store badges on a dark surface. The default badge is var(--ink), which
-   vanishes into a dark card, while the muted "soon" badge is lighter and so
-   stands out — leaving the one you cannot tap looking more tappable than the
-   one you can. Lift the live badge and sink the inert one to put that right. */
+   vanishes into a dark card, so lift it to read as a button there. */
 .on-dark .store-badge {
   background: rgba(255, 255, 255, 0.12);
 }
 .on-dark .store-badge:hover {
   background: rgba(255, 255, 255, 0.2);
-}
-.on-dark .store-badge.soon,
-.on-dark .store-badge.soon:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: rgba(255, 255, 255, 0.5);
 }
 
 /* App promo poster — shown once, after the visitor has stayed a while. */
