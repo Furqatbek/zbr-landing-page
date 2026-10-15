@@ -1,7 +1,7 @@
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import type { IncomingMessage, ServerResponse } from "node:http";
-import { handleLead } from "./api/_lead.js";
+import { handleLead } from "./api/lead.js";
 
 // Makes POST /api/lead work under `vite dev` / `vite preview` by running the
 // same handler the serverless function uses in production.
