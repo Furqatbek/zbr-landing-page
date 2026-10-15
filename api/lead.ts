@@ -1,7 +1,7 @@
 // Serverless function (Vercel-compatible Node runtime) that forwards a captured
 // lead to Telegram. Deploy alongside the static Vite build; the frontend POSTs
 // JSON to /api/lead. Configure TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID as env vars.
-import { handleLead } from "./_lead.ts";
+import { handleLead } from "./_lead.js";
 
 interface ReqLike {
   method?: string;
